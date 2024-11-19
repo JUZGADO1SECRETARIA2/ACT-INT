@@ -68,9 +68,23 @@
             };
 
             const handleMontoChange = (e, campo) => {
-    // Acepta números, puntos y comas
     const valor = e.target.value;
-    setMontos(prev => ({...prev, [campo]: valor}));
+    setMontos(prev => {
+        const nuevoEstado = {...prev, [campo]: valor};
+        
+        // Si se modificó capital o intereses, actualizar retroactivo
+        if (campo === 'capital' || campo === 'intereses') {
+            const capital = parseFloat(nuevoEstado.capital.replace(/\./g, '').replace(',', '.')) || 0;
+            const intereses = parseFloat(nuevoEstado.intereses.replace(/\./g, '').replace(',', '.')) || 0;
+            const retroactivo = capital + intereses;
+            nuevoEstado.retroactivo = new Intl.NumberFormat('es-AR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(retroactivo);
+        }
+        
+        return nuevoEstado;
+    });
 };
 
 const formatearMonto = (valor) => {
@@ -85,20 +99,91 @@ const formatearMonto = (valor) => {
         maximumFractionDigits: 2
     }).format(numero);
 };
+const numeroALetras = (numero) => {
+    const unidades = ['', 'UNO', 'DOS', 'TRES', 'CUATRO', 'CINCO', 'SEIS', 'SIETE', 'OCHO', 'NUEVE'];
+    const decenas = ['', 'DIEZ', 'VEINTE', 'TREINTA', 'CUARENTA', 'CINCUENTA', 'SESENTA', 'SETENTA', 'OCHENTA', 'NOVENTA'];
+    const especiales = {
+        11: 'ONCE', 12: 'DOCE', 13: 'TRECE', 14: 'CATORCE', 15: 'QUINCE',
+        16: 'DIECISEIS', 17: 'DIECISIETE', 18: 'DIECIOCHO', 19: 'DIECINUEVE'
+    };
 
-const numeroALetras = (monto) => {
-    if (!monto) return 'PESOS CERO';
-    // Convierte de formato español a número
-    const numeroLimpio = monto.toString()
-        .replace(/\./g, '')  // Elimina los puntos de miles
-        .replace(',', '.');  // Cambia la coma decimal por punto
-    const numero = parseFloat(numeroLimpio);
-    return `PESOS ${new Intl.NumberFormat('es-AR', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    }).format(numero)}`;
+    const convertirGrupo = (n) => {
+        let resultado = '';
+        
+        // Centenas
+        const centenas = Math.floor(n / 100);
+        if (centenas === 1) resultado += n === 100 ? 'CIEN ' : 'CIENTO ';
+        else if (centenas === 5) resultado += 'QUINIENTOS ';
+        else if (centenas === 9) resultado += 'NOVECIENTOS ';
+        else if (centenas > 0) resultado += unidades[centenas] + 'CIENTOS ';
+        
+        // Decenas y unidades
+        const decena = n % 100;
+        if (decena > 0) {
+            if (especiales[decena]) {
+                resultado += especiales[decena];
+            } else {
+                const unidad = decena % 10;
+                const dec = Math.floor(decena / 10);
+                if (dec > 0) {
+                    resultado += decenas[dec];
+                    if (unidad > 0) resultado += ' Y ' + unidades[unidad];
+                } else if (unidad > 0) {
+                    resultado += unidades[unidad];
+                }
+            }
+        }
+        
+        return resultado.trim();
+    };
+
+    if (!numero) return 'CERO CON CERO CENTAVOS';
+    
+    let numeroStr = numero.toString()
+        .replace(/\./g, '')
+        .replace(',', '.');
+    let partes = parseFloat(numeroStr).toFixed(2).split('.');
+    let entero = parseInt(partes[0]);
+    let decimal = parseInt(partes[1]);
+    
+    let resultado = '';
+    
+    if (entero === 0) {
+        resultado = 'CERO';
+    } else {
+        // Millones
+        const millones = Math.floor(entero / 1000000);
+        if (millones > 0) {
+            resultado += convertirGrupo(millones);
+            resultado += millones === 1 ? ' MILLON ' : ' MILLONES ';
+        }
+        
+        // Miles
+        const miles = Math.floor((entero % 1000000) / 1000);
+        if (miles > 0) {
+            resultado += convertirGrupo(miles) + ' MIL ';
+        }
+        
+        // Resto
+        const resto = entero % 1000;
+        if (resto > 0) {
+            resultado += convertirGrupo(resto);
+        }
+    }
+    
+    // Agregar centavos
+    if (decimal > 0) {
+        if (decimal === 1) {
+            resultado += ' CON UN CENTAVO';
+        } else {
+            resultado += ' CON ' + convertirGrupo(decimal) + ' CENTAVOS';
+        }
+    } else {
+        resultado += ' CON CERO CENTAVOS';
+    }
+    
+    return 'PESOS ' + resultado.trim();
 };
-
             const handleFechaChange = (e, campo) => {
                 setFechas(prev => ({...prev, [campo]: e.target.value}));
             };
@@ -196,7 +281,7 @@ const numeroALetras = (monto) => {
                     "proceda a abonar a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago" :
                     "proceda a reajustar el haber previsional conforme a la liquidación aprobada, y abone a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago";
 
-                    parrafos.push(`1.- Aprobar en cuanto ha lugar por derecho la liquidación presentada por la actora con fecha ${formatearFecha(fechas.liquidacion)}, quedando determinado el haber al ${formatearFecha(fechas.final)} en la suma de $ ${formatearMonto(montos.haber)} y las retroactividades en PESOS ${numeroALetras(montos.retroactivo)} ($ ${formatearMonto(montos.retroactivo)}) ($ ${formatearMonto(montos.capital)} + $ ${formatearMonto(montos.intereses)}).`);
+                    parrafos.push(`1.- Aprobar en cuanto ha lugar por derecho la liquidación presentada por la actora con fecha ${formatearFecha(fechas.liquidacion)}, quedando determinado el haber al ${formatearFecha(fechas.final)} en la suma de $ ${formatearMonto(montos.haber)} y las retroactividades en ${numeroALetras(montos.retroactivo)} ($ ${formatearMonto(montos.retroactivo)}) ($ ${formatearMonto(montos.capital)} + $ ${formatearMonto(montos.intereses)}).`);
                 parrafos.push(`2.- Intimar a la demandada para que en el plazo de diez (10) días, ${intimacionTexto}, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.`);
                 parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica.");
 
