@@ -100,14 +100,18 @@ const formatearMonto = (valor) => {
     }).format(numero);
 };
 const numeroALetras = (numero) => {
-    const unidades = ['', 'UNO', 'DOS', 'TRES', 'CUATRO', 'CINCO', 'SEIS', 'SIETE', 'OCHO', 'NUEVE'];
+    const unidades = ['', 'UN', 'DOS', 'TRES', 'CUATRO', 'CINCO', 'SEIS', 'SIETE', 'OCHO', 'NUEVE'];
+    const unidadesEspeciales = ['', 'UNO', 'DOS', 'TRES', 'CUATRO', 'CINCO', 'SEIS', 'SIETE', 'OCHO', 'NUEVE'];
     const decenas = ['', 'DIEZ', 'VEINTE', 'TREINTA', 'CUARENTA', 'CINCUENTA', 'SESENTA', 'SETENTA', 'OCHENTA', 'NOVENTA'];
     const especiales = {
         11: 'ONCE', 12: 'DOCE', 13: 'TRECE', 14: 'CATORCE', 15: 'QUINCE',
-        16: 'DIECISEIS', 17: 'DIECISIETE', 18: 'DIECIOCHO', 19: 'DIECINUEVE'
+        16: 'DIECISEIS', 17: 'DIECISIETE', 18: 'DIECIOCHO', 19: 'DIECINUEVE',
+        21: 'VEINTIUN', 22: 'VEINTIDOS', 23: 'VEINTITRES', 24: 'VEINTICUATRO',
+        25: 'VEINTICINCO', 26: 'VEINTISEIS', 27: 'VEINTISIETE', 28: 'VEINTIOCHO',
+        29: 'VEINTINUEVE'
     };
 
-    const convertirGrupo = (n) => {
+    const convertirGrupo = (n, final = false) => {
         let resultado = '';
         
         // Centenas
@@ -127,9 +131,9 @@ const numeroALetras = (numero) => {
                 const dec = Math.floor(decena / 10);
                 if (dec > 0) {
                     resultado += decenas[dec];
-                    if (unidad > 0) resultado += ' Y ' + unidades[unidad];
+                    if (unidad > 0) resultado += ' Y ' + (final ? unidadesEspeciales[unidad] : unidades[unidad]);
                 } else if (unidad > 0) {
-                    resultado += unidades[unidad];
+                    resultado += (final ? unidadesEspeciales[unidad] : unidades[unidad]);
                 }
             }
         }
@@ -155,7 +159,7 @@ const numeroALetras = (numero) => {
         const millones = Math.floor(entero / 1000000);
         if (millones > 0) {
             resultado += convertirGrupo(millones);
-            resultado += millones === 1 ? ' MILLON ' : ' MILLONES ';
+            resultado += millones === 1 ? ' MILLÓN ' : ' MILLONES ';
         }
         
         // Miles
@@ -167,7 +171,7 @@ const numeroALetras = (numero) => {
         // Resto
         const resto = entero % 1000;
         if (resto > 0) {
-            resultado += convertirGrupo(resto);
+            resultado += convertirGrupo(resto, true);
         }
     }
     
