@@ -244,14 +244,16 @@ const numeroALetras = (numero) => {
                     parrafos.push("La parte actora contesta el traslado conferido y solicita que se rechacen las impugnaciones y el planteo de la ejecutada, por los fundamentos allí expuestos a los que me remito en honor a la brevedad, y que se apruebe la liquidación por ella practicada.");
 
                     if (impugnaciones.a) {
-                        if (tipoInteres === 'corteEmbargo' || tipoInteres === 'corteTransferencia') {
-                            parrafos.push('En torno al cálculo de intereses efectuado por la actora desde la fecha de corte del último cómputo aprobado, cabe puntualizar que la Suscripta comparte el criterio sustentado por la Sala I de la CFSS en la causa "FREUND JORGE CARLOS c/anses s/ otros - ejecución previsional" de fecha 25/11/2019 exp. 15156/12, donde sostuvo que "...la Tasa Pasiva para Uso de la Justicia (Com. A 14.290 BCRA) tiene implícita la capitalización en su fórmula de cálculo, aplicarla a un importe compuesto de capital e intereses no produce anatocismo...". En consecuencia, corresponde rechazar el planteo de la Anses en tal sentido.');
-                        } else if (tipoInteres === 'intimacionEmbargo') {
-                            parrafos.push('En cuanto al cálculo de intereses, observo que ha sido practicado de conformidad a lo dispuesto por el art. 770 inc. c del CCCN, por lo que corresponde desestimar los cuestionamientos.');
-                        } else if (tipoInteres === 'intimacionTransferencia') {
-                            parrafos.push('En cuanto al cálculo de intereses, observo que ha sido practicado de conformidad a lo dispuesto por el art. 770 inc.c del CCCN y hasta la fecha de efectivización de la transferencia del importe embargado, a la cuenta de titularidad del actor. (Conf. "Dietl Enrique Arturo c/Anses s/ Amparos y Sumarisimos, CFSS, Sala II del 24.10.18), por lo que corresponde desestimar los cuestionamientos.');
-                        }
-                    }
+    if (tipoInteres === 'corteEmbargo') {
+        parrafos.push('En torno al cálculo de intereses efectuado por la actora desde la fecha de corte del último cómputo aprobado, cabe puntualizar que la Suscripta comparte el criterio sustentado por la Sala I de la CFSS en la causa "FREUND JORGE CARLOS c/anses s/ otros - ejecución previsional" de fecha 25/11/2019 exp. 15156/12, donde sostuvo que "...la Tasa Pasiva para Uso de la Justicia (Com. A 14.290 BCRA) tiene implícita la capitalización en su fórmula de cálculo, aplicarla a un importe compuesto de capital e intereses no produce anatocismo...". En consecuencia, corresponde rechazar el planteo de la Anses en tal sentido.');
+    } else if (tipoInteres === 'corteTransferencia') {
+        parrafos.push('En torno al cálculo de intereses efectuado por la actora desde la fecha de corte del último cómputo aprobado, cabe puntualizar que la Suscripta comparte el criterio sustentado por la Sala I de la CFSS en la causa "FREUND JORGE CARLOS c/anses s/ otros - ejecución previsional" de fecha 25/11/2019 exp. 15156/12, donde sostuvo que "...la Tasa Pasiva para Uso de la Justicia (Com. A 14.290 BCRA) tiene implícita la capitalización en su fórmula de cálculo, aplicarla a un importe compuesto de capital e intereses no produce anatocismo...". En consecuencia, corresponde rechazar el planteo de la Anses en tal sentido. Asimismo, observo que ha calculado los intereses hasta la fecha de efectivización de la transferencia del importe embargado, a la cuenta de titularidad del actor. (Conf. "Dietl Enrique Arturo c/Anses s/ Amparos y Sumarisimos, CFSS, Sala II del 24.10.18), por lo que corresponde desestimar los cuestionamientos.');
+    } else if (tipoInteres === 'intimacionEmbargo') {
+        parrafos.push('En cuanto al cálculo de intereses, observo que ha sido practicado de conformidad a lo dispuesto por el art. 770 inc. c del CCCN, por lo que corresponde desestimar los cuestionamientos.');
+    } else if (tipoInteres === 'intimacionTransferencia') {
+        parrafos.push('En cuanto al cálculo de intereses, observo que ha sido practicado de conformidad a lo dispuesto por el art. 770 inc.c del CCCN y hasta la fecha de efectivización de la transferencia del importe embargado, a la cuenta de titularidad del actor. (Conf. "Dietl Enrique Arturo c/Anses s/ Amparos y Sumarisimos, CFSS, Sala II del 24.10.18), por lo que corresponde desestimar los cuestionamientos.');
+    }
+}
 
                     if (impugnaciones.d) {
                         parrafos.push("Asimismo, observo que la actora aplica la tasa de interés ordenada en la Sentencia que se ejecuta, por lo que corresponde desestimar la impugnación en tal sentido.");
@@ -286,8 +288,13 @@ const numeroALetras = (numero) => {
                     "proceda a reajustar el haber previsional conforme a la liquidación aprobada, y abone a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago";
 
                     parrafos.push(`1.- Aprobar en cuanto ha lugar por derecho la liquidación presentada por la actora con fecha ${formatearFecha(fechas.liquidacion)}, quedando determinado el haber al ${formatearFecha(fechas.final)} en la suma de $ ${formatearMonto(montos.haber)} y las retroactividades en ${numeroALetras(montos.retroactivo)} ($ ${formatearMonto(montos.retroactivo)}) ($ ${formatearMonto(montos.capital)} + $ ${formatearMonto(montos.intereses)}).`);
-                parrafos.push(`2.- Intimar a la demandada para que en el plazo de diez (10) días, ${intimacionTexto}, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.`);
-                parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica.");
+
+if (fallecimiento.herederos) {
+    parrafos.push("Las sumas aquí aprobadas deberán ser depositadas en el correspondiente sucesorio, en caso de incumplimiento serán transferidas al mismo.");
+}
+
+parrafos.push(`2.- Intimar a la demandada para que en el plazo de diez (10) días, ${intimacionTexto}, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.`);
+parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica.");
 
                 setGenerado(parrafos.join('\n\n'));
             };
