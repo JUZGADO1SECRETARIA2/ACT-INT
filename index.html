@@ -118,6 +118,7 @@ const numeroALetras = (numero) => {
         const centenas = Math.floor(n / 100);
         if (centenas === 1) resultado += n === 100 ? 'CIEN ' : 'CIENTO ';
         else if (centenas === 5) resultado += 'QUINIENTOS ';
+        else if (centenas === 7) resultado += 'SETECIENTOS ';
         else if (centenas === 9) resultado += 'NOVECIENTOS ';
         else if (centenas > 0) resultado += unidades[centenas] + 'CIENTOS ';
         
