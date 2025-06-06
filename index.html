@@ -47,7 +47,8 @@
                 haber: '',
                 retroactivo: '',
                 capital: '',
-                intereses: ''
+                intereses: '',
+                mensualDePago: '' 
             });
 
             const [tipoInteres, setTipoInteres] = React.useState('');
@@ -236,7 +237,7 @@ const numeroALetras = (numero) => {
 
     parrafos.push(`Persistiendo el incumplimiento por parte de la demandada, la parte actora acompaña una nueva liquidación por las diferencias pendientes de pago devengadas entre el ${formatearFecha(fechas.inicio)} y ${formatearFecha(fechas.final)}.`);
     if (integral.ansesreajusta) {
-    parrafos.push(`Que en el mensual XXX la Anses reajustó el haber del actor pero no abonó sumas en concepto de retroactivo. Ante el cumplimiento parcial de la ejecutada, la actora practica liquidación por las diferencias pendientes de pago entre el ${formatearFecha(fechas.inicio)} y ${formatearFecha(fechas.final)}.`);
+    parrafos.push(`Que en el mensual ${montos.mensualDePago} la Anses reajustó el haber del actor pero no abonó sumas en concepto de retroactivo. Ante el cumplimiento parcial de la ejecutada, la actora practica liquidación por las diferencias pendientes de pago entre el ${formatearFecha(fechas.inicio)} y ${formatearFecha(fechas.final)}.`);
     }
     if (integral.ansespagaretroactivo) {
     parrafos.push("Que atento al cumplimiento parcial por parte de la demandada, la actora practica una nueva liquidación integral, descontando las sumas percibidas en autos mediante embargo y las abonadas por la Anses en el mensual 0000000.");
@@ -300,7 +301,7 @@ const numeroALetras = (numero) => {
                 parrafos.push("Así, luego de analizar la liquidación en cuestión y teniendo en cuenta que la misma se ajusta a los parámetros de la sentencia en ejecución, estimo acertado aprobarla.");
                 parrafos.push("En consecuencia, RESUELVO:");
 
-                if (ansesreajusta) {
+                if (integral.ansesreajusta) {
                 parrafos.push(`1.- Aprobar en cuanto ha lugar por derecho la liquidación presentada por la actora con fecha ${formatearFecha(fechas.liquidacion)}, quedando determinadas las retroactividades en PESOS ${numeroALetras(montos.retroactivo)} ($ ${formatearMonto(montos.retroactivo)}).`);
                 parrafos.push("2.- Intimar a la demandada para que en el plazo de diez (10) días, abone a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.");
                 } else {
@@ -368,7 +369,7 @@ parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica."
                                     <input 
                                         type="checkbox"
                                         className="mr-2"
-                                        checked={ansesreajusta}
+                                        checked={integral.ansesreajusta}
                                         onChange={e => setIntegral({ansesreajusta: e.target.checked, ansespagaretroactivo: false, nohaypagonireajuste: false})}
                                     />
                                     <span>Anses reajusta haber</span>
@@ -377,7 +378,7 @@ parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica."
                                     <input 
                                         type="checkbox"
                                         className="mr-2"
-                                        checked={ansespagaretroactivo}
+                                        checked={integral.ansespagaretroactivo}
                                         onChange={e => setIntegral({ansesreajusta: false, ansespagaretroactivo: e.target.checked, nohaypagonireajuste: false})}
                                     />
                                     <span>Anses paga retroactivo</span>
@@ -386,7 +387,7 @@ parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica."
                                     <input 
                                         type="checkbox"
                                         className="mr-2"
-                                        checked={nohaypagonireajuste}
+                                        checked={integral.nohaypagonireajuste}
                                         onChange={e => setIntegral({ansesreajusta: false, ansespagaretroactivo: false, nohaypagonireajuste: e.target.checked})}
                                     />
                                     <span>No hay reajuste ni pago retroactivo</span>
@@ -430,23 +431,37 @@ parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica."
                         <section>
                             <h2 className="font-bold mb-2">Montos</h2>
                             <div className="grid grid-cols-2 gap-4">
-                                {[
-                                    ['haber', 'Haber'],
+                                  {[
+                                     ['haber', 'Haber'],
                                     ['retroactivo', 'Retroactivo'],
                                     ['capital', 'Capital'],
                                     ['intereses', 'Intereses']
-                                ].map(([key, label]) => (
-                                    <div key={key}>
-                                        <label className="block mb-1">{label}</label>
+                                    ].map(([key, label]) => (
+                                        <div key={key}>
+                                            <label className="block mb-1">{label}</label>
+                                            <input
+                                                type="text"
+                                                className="w-full p-2 border rounded"
+                                                value={montos[key]}
+                                                onChange={e => handleMontoChange(e, key)}
+                                                placeholder="0,00"
+                                    />
+                                </div>
+                            ))}
+
+                                {/* Campo condicional para mensual de pago */}
+                                {integral.ansesreajusta && (
+                                    <div className="col-span-2">
+                                        <label className="block mb-1">Mensual de pago</label>
                                         <input
                                             type="text"
                                             className="w-full p-2 border rounded"
-                                            value={montos[key]}
-                                            onChange={e => handleMontoChange(e, key)}
-                                            placeholder="0,00"
+                                            value={montos.mensualDePago}
+                                            onChange={e => setMontos(prev => ({ ...prev, mensualDePago: e.target.value }))}
+                                            placeholder="Ej: 08/2023"
                                         />
                                     </div>
-                                ))}
+                                )}
                             </div>
                         </section>
 
