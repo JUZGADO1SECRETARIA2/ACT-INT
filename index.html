@@ -26,9 +26,15 @@
         // Componente principal
         const SentenciaGenerator = () => {
             // Estados con React.useState
+            const [tipoSentencia, setTipoSentencia] = React.useState("");
             const [fallecimiento, setFallecimiento] = React.useState({
                 pensionada: false,
                 herederos: false
+            });
+            const [integral, setIntegral] = React.useState({
+                ansesreajusta: false,
+                ansespagaretroactivo: false,
+                nohaypagonireajuste: false
             });
 
             const [fechas, setFechas] = React.useState({
@@ -229,7 +235,17 @@ const numeroALetras = (numero) => {
     }
 
     parrafos.push(`Persistiendo el incumplimiento por parte de la demandada, la parte actora acompaña una nueva liquidación por las diferencias pendientes de pago devengadas entre el ${formatearFecha(fechas.inicio)} y ${formatearFecha(fechas.final)}.`);
-                const tiposInteresParrafos = {
+    if (integral.ansesreajusta) {
+    parrafos.push(`Que en el mensual XXX la Anses reajustó el haber del actor pero no abonó sumas en concepto de retroactivo. Ante el cumplimiento parcial de la ejecutada, la actora practica liquidación por las diferencias pendientes de pago entre el ${formatearFecha(fechas.inicio)} y ${formatearFecha(fechas.final)}.`);
+    }
+    if (integral.ansespagaretroactivo) {
+    parrafos.push("Que atento al cumplimiento parcial por parte de la demandada, la actora practica una nueva liquidación integral, descontando las sumas percibidas en autos mediante embargo y las abonadas por la Anses en el mensual 0000000.");
+    }
+    if (integral.nohaypagoniretroactivo) {
+    parrafos.push(`Persistiendo el incumplimiento por parte de la demandada, la parte actora acompaña una nueva liquidación integral en fecha ${fechaliqui}, procediendo a descontar las sumas percibidas mediante embargo.`);
+    }
+    
+    const tiposInteresParrafos = {
                     corteEmbargo: "Asimismo, calcula los intereses desde la fecha de corte del último cómputo aprobado, hasta la efectivización del embargo decretado en autos.",
                     corteTransferencia: "Asimismo, calcula los intereses desde la fecha de corte del último cómputo aprobado, hasta la efectivización de la transferencia de las sumas embargadas.",
                     intimacionEmbargo: "Asimismo, calcula los intereses desde la fecha de vencimiento de la intimación al pago del último cómputo aprobado, hasta la efectivización del embargo decretado en autos.",
@@ -284,6 +300,10 @@ const numeroALetras = (numero) => {
                 parrafos.push("Así, luego de analizar la liquidación en cuestión y teniendo en cuenta que la misma se ajusta a los parámetros de la sentencia en ejecución, estimo acertado aprobarla.");
                 parrafos.push("En consecuencia, RESUELVO:");
 
+                if (ansesreajusta) {
+                parrafos.push(`1.- Aprobar en cuanto ha lugar por derecho la liquidación presentada por la actora con fecha ${formatearFecha(fechas.liquidacion)}, quedando determinadas las retroactividades en PESOS ${numeroALetras(montos.retroactivo)} ($ ${formatearMonto(montos.retroactivo)}).`);
+                parrafos.push("2.- Intimar a la demandada para que en el plazo de diez (10) días, abone a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.");
+                } else {
                 const intimacionTexto = fallecimiento.herederos ? 
                     "proceda a abonar a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago" :
                     "proceda a reajustar el haber previsional conforme a la liquidación aprobada, y abone a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago";
@@ -296,7 +316,7 @@ if (fallecimiento.herederos) {
 
 parrafos.push(`2.- Intimar a la demandada para que en el plazo de diez (10) días, ${intimacionTexto}, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.`);
 parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica.");
-
+}
                 setGenerado(parrafos.join('\n\n'));
             };
 
@@ -312,7 +332,7 @@ parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica."
             return (
                 <div className="max-w-4xl mx-auto p-4">
                     <div className="bg-white rounded-lg shadow p-6 space-y-6">
-                        <h1 className="text-xl font-bold">Generador de Sentencia ACT + INT</h1>
+                        <h1 className="text-xl font-bold">Generador de Sentencia ACT + INT / Integrales</h1>
                         
                         <section>
                             <h2 className="font-bold mb-2">Estado del Actor</h2>
@@ -334,6 +354,42 @@ parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica."
                                         onChange={e => setFallecimiento({pensionada: false, herederos: e.target.checked})}
                                     />
                                     <span>Fallecido con herederos</span>
+                                </label>
+                            </div>
+                        </section>
+
+
+
+
+                        <section>
+                            <h2 className="font-bold mb-2">Integrales</h2>
+                            <div className="grid grid-cols-2 gap-4">
+                                <label className="flex items-center">
+                                    <input 
+                                        type="checkbox"
+                                        className="mr-2"
+                                        checked={ansesreajusta}
+                                        onChange={e => setIntegral({ansesreajusta: e.target.checked, ansespagaretroactivo: false, nohaypagonireajuste: false})}
+                                    />
+                                    <span>Anses reajusta haber</span>
+                                </label>
+                                <label className="flex items-center">
+                                    <input 
+                                        type="checkbox"
+                                        className="mr-2"
+                                        checked={ansespagaretroactivo}
+                                        onChange={e => setIntegral({ansesreajusta: false, ansespagaretroactivo: e.target.checked, nohaypagonireajuste: false})}
+                                    />
+                                    <span>Anses paga retroactivo</span>
+                                </label>
+                                <label className="flex items-center">
+                                    <input 
+                                        type="checkbox"
+                                        className="mr-2"
+                                        checked={nohaypagonireajuste}
+                                        onChange={e => setIntegral({ansesreajusta: false, ansespagaretroactivo: false, nohaypagonireajuste: e.target.checked})}
+                                    />
+                                    <span>No hay reajuste ni pago retroactivo</span>
                                 </label>
                             </div>
                         </section>
