@@ -299,11 +299,16 @@ const numeroALetras = (numero) => {
                 }
 
                 parrafos.push("Así, luego de analizar la liquidación en cuestión y teniendo en cuenta que la misma se ajusta a los parámetros de la sentencia en ejecución, estimo acertado aprobarla.");
+                parrafos.push("Respecto a la regulación de honorarios, se hará teniendo en cuenta lo establecido por la ley arancelaria N° 27.423, aplicable al caso de autos, conforme con lo resuelto por la Corte Suprema de Justicia de la Nación en el fallo “Establecimientos Las Marías S.A.C.I.F.A. c/Misiones Provincia de s/ acción Declarativa c/Buenos Aires, provincia de S/Daños y Perjuicios” del 4/09/18, el resultado y naturaleza del proceso, complejidad del asunto y la calidad e importancia de la tarea cumplida.");
+                parrafos.push("Atento al tiempo transcurrido desde la presentación del cálculo en análisis, a fin de establecer la base regulatoria en UMAS prevista por la ley 27423, se considerará el valor de dicha unidad a la fecha de cierre de la liquidación (conf. Sala II CFSS expte N° 48840/2007 “SAGO HADEL ILANCO c/ ANSES s/REAJUSTES VARIOS” y expte. N° 31205/2012 “ALDANA JULIA c/ ANSES s/REAJUSTES VARIOS” Sent. Int. 16.08.2023).");
                 parrafos.push("En consecuencia, RESUELVO:");
 
                 if (integral.ansesreajusta) {
                 parrafos.push(`1.- Aprobar en cuanto ha lugar por derecho la liquidación presentada por la actora con fecha ${formatearFecha(fechas.liquidacion)}, quedando determinadas las retroactividades en PESOS ${numeroALetras(montos.retroactivo)} ($ ${formatearMonto(montos.retroactivo)}).`);
                 parrafos.push("2.- Intimar a la demandada para que en el plazo de diez (10) días, abone a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.");
+                parrafos.push("3.- Regular los honorarios de la representación letrada de la parte actora en la suma de $ umaspesos, que representan la cantidad de umasequivalente UMAS (Conf. arts. arts. 16, 20, 21, 22, 29 y 51 de la ley 27.423 y Res. SGA CSJN N° 1687/2025), suma a la que deberá adicionarse el IVA en caso de corresponder.");    
+                parrafos.push("Se hace saber que dicha regulación se discrimina de la siguiente forma: 50% por la labor desarrollada en esta incidencia y 50% por las tareas que posteriormente se desarrollen hasta la transferencia de las sumas que eventualmente se embarguen. Así, la percepción de este último porcentaje sólo podrá hacerse efectivo ante el desarrollo de dichas tareas.");
+                parrafos.push("4.- Costas a la demandada vencida.");    
                 } else {
                 const intimacionTexto = fallecimiento.herederos ? 
                     "proceda a abonar a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago" :
@@ -577,3 +582,4 @@ parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica."
         const root = ReactDOM.createRoot(container);
         root.render(<SentenciaGenerator />);
     </script>
+
