@@ -51,6 +51,11 @@
                 mensualDePago: '' 
             });
 
+            const [honorarios, setHonorarios] = React.useState({
+                umaspesos: '',
+                umasequivalente: ''
+                });
+
             const [tipoInteres, setTipoInteres] = React.useState('');
             const [ansesImpugno, setAnsesImpugno] = React.useState(false);
             const [ansesPresentoLiquidacion, setAnsesPresentoLiquidacion] = React.useState(true);
@@ -196,6 +201,12 @@ const numeroALetras = (numero) => {
     
     return 'PESOS ' + resultado.trim();
 };
+           const handleHonorariosChange = (e, campo) => {
+    const valor = e.target.value;
+    setHonorarios(prev => {
+        const nuevoEstado = {...prev, [campo]: valor};
+            
+            
             const handleFechaChange = (e, campo) => {
                 setFechas(prev => ({...prev, [campo]: e.target.value}));
             };
@@ -474,6 +485,27 @@ parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica."
                         </section>
 
                         <section>
+  <h2 className="font-bold mb-2">Honorarios</h2>
+  <div className="grid grid-cols-2 gap-4">
+    {[
+      ['umaspesos', 'Umas en Pesos'],
+      ['umasequivalente', 'Cantidad de Umas']
+    ].map(([key, label]) => (
+      <div key={key}>
+        <label className="block mb-1">{label}</label>
+        <input
+          type="text"
+          className="w-full p-2 border rounded"
+          value={honorarios[key]}
+          onChange={e => handleHonorariosChange(e, key)}
+          placeholder="0,00"
+        />
+      </div>
+    ))}
+  </div>
+</section>
+
+                        <section>
                             <h2 className="font-bold mb-2">Tipo de Interés</h2>
                             <div className="grid grid-cols-2 gap-4">
                                 {[
@@ -585,5 +617,6 @@ parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica."
         const root = ReactDOM.createRoot(container);
         root.render(<SentenciaGenerator />);
     </script>
+
 
 
