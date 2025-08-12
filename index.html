@@ -317,7 +317,7 @@ const numeroALetras = (numero) => {
                 if (integral.ansesreajusta) {
                 parrafos.push(`1.- Aprobar en cuanto ha lugar por derecho la liquidación presentada por la actora con fecha ${formatearFecha(fechas.liquidacion)}, quedando determinadas las retroactividades en PESOS ${numeroALetras(montos.retroactivo)} ($ ${formatearMonto(montos.retroactivo)}).`);
                 parrafos.push("2.- Intimar a la demandada para que en el plazo de diez (10) días, abone a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.");
-                parrafos.push("3.- Regular los honorarios de la representación letrada de la parte actora en la suma de $ umaspesos, que representan la cantidad de umasequivalente UMAS (Conf. arts. arts. 16, 20, 21, 22, 29 y 51 de la ley 27.423 y Res. SGA CSJN N° 1687/2025), suma a la que deberá adicionarse el IVA en caso de corresponder.");    
+                parrafos.push("3.- Regular los honorarios de la representación letrada de la parte actora en la suma de $ ${honorarios.umaspesos}, que representan la cantidad de ${honorarios.umasequivalente} UMAS (Conf. arts. arts. 16, 20, 21, 22, 29 y 51 de la ley 27.423 y Res. SGA CSJN N° 1687/2025), suma a la que deberá adicionarse el IVA en caso de corresponder.");    
                 parrafos.push("Se hace saber que dicha regulación se discrimina de la siguiente forma: 50% por la labor desarrollada en esta incidencia y 50% por las tareas que posteriormente se desarrollen hasta la transferencia de las sumas que eventualmente se embarguen. Así, la percepción de este último porcentaje sólo podrá hacerse efectivo ante el desarrollo de dichas tareas.");
                 parrafos.push("4.- Costas a la demandada vencida.");    
                 } else {
@@ -332,7 +332,7 @@ if (fallecimiento.herederos) {
 }
 
 parrafos.push(`2.- Intimar a la demandada para que en el plazo de diez (10) días, ${intimacionTexto}, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.`);
-parrafos.push("3.- Regular los honorarios de la representación letrada de la parte actora en la suma de $ umaspesos, que representan la cantidad de umasequivalente UMAS (Conf. arts. arts. 16, 20, 21, 22, 29 y 51 de la ley 27.423 y Res. SGA CSJN N° 1687/2025), suma a la que deberá adicionarse el IVA en caso de corresponder.");    
+parrafos.push("3.- Regular los honorarios de la representación letrada de la parte actora en la suma de $ ${honorarios.umaspesos}, que representan la cantidad de ${honorarios.umasequivalente} UMAS (Conf. arts. arts. 16, 20, 21, 22, 29 y 51 de la ley 27.423 y Res. SGA CSJN N° 1687/2025), suma a la que deberá adicionarse el IVA en caso de corresponder.");    
 parrafos.push("Se hace saber que dicha regulación se discrimina de la siguiente forma: 50% por la labor desarrollada en esta incidencia y 50% por las tareas que posteriormente se desarrollen hasta la transferencia de las sumas que eventualmente se embarguen. Así, la percepción de este último porcentaje sólo podrá hacerse efectivo ante el desarrollo de dichas tareas.");
 parrafos.push("4.- Costas a la demandada vencida.");    
 parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica.");
@@ -617,6 +617,7 @@ parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica."
         const root = ReactDOM.createRoot(container);
         root.render(<SentenciaGenerator />);
     </script>
+
 
 
 
