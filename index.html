@@ -201,15 +201,17 @@ const numeroALetras = (numero) => {
     
     return 'PESOS ' + resultado.trim();
 };
-           const handleHonorariosChange = (e, campo) => {
-    const valor = e.target.value;
-    setHonorarios(prev => {
-        const nuevoEstado = {...prev, [campo]: valor};
-            
-            
-            const handleFechaChange = (e, campo) => {
-                setFechas(prev => ({...prev, [campo]: e.target.value}));
-            };
+const handleHonorariosChange = (e, campo) => {
+  const valor = e.target.value;
+  setHonorarios(prev => {
+    const nuevoEstado = {...prev, [campo]: valor};
+    return nuevoEstado;
+  });
+};
+
+const handleFechaChange = (e, campo) => {
+  setFechas(prev => ({...prev, [campo]: e.target.value}));
+};
 
             const generarListaImpugnaciones = () => {
                 const mapImpugnaciones = {
@@ -617,6 +619,7 @@ parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica."
         const root = ReactDOM.createRoot(container);
         root.render(<SentenciaGenerator />);
     </script>
+
 
 
 
