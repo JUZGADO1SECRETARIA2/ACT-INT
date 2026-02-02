@@ -629,7 +629,9 @@
                 } else {
                     parrafos.push("Que en las presentes actuaciones se aprobó liquidación y se mandó llevar adelante la ejecución, se trabó embargo por las sumas resultantes de dicho cálculo y se ordenó su transferencia a la cuenta de la actora.");
                 }
-                parrafos.push(`Persistiendo el incumplimiento por parte de la demandada, la parte actora acompaña una nueva liquidación por las diferencias pendientes de pago devengadas entre el ${formatearFecha(fechas.inicio)} y ${formatearFecha(fechas.final)}.`);
+                if (!integral.ansesreajusta) {
+                    parrafos.push(`Persistiendo el incumplimiento por parte de la demandada, la parte actora acompaña una nueva liquidación por las diferencias pendientes de pago devengadas entre el ${formatearFecha(fechas.inicio)} y ${formatearFecha(fechas.final)}.`);
+                }
                 if (integral.ansesreajusta) {
                     parrafos.push(`Que en el mensual ${montos.mensualDePago} la Anses reajustó el haber del actor pero no abonó sumas en concepto de retroactivo. Ante el cumplimiento parcial de la ejecutada, la actora practica liquidación por las diferencias pendientes de pago entre el ${formatearFecha(fechas.inicio)} y ${formatearFecha(fechas.final)}.`);
                 }
@@ -650,8 +652,10 @@
                 }
                 if (ansesImpugno) {
                     parrafos.push(`Corrido el pertinente traslado, la Anses impugna dicha liquidación, aduciendo ${generarListaImpugnaciones()}.`);
-                    parrafos.push("La parte actora contesta el traslado conferido y solicita que se rechacen las impugnaciones y el planteo de la ejecutada, por los fundamentos allí expuestos a los que me remito en honor a la brevedad, y que se apruebe la liquidación por ella practicada.");
-                    
+                    parrafos.push("La parte actora contesta el traslado conferido y solicita que se rechacen las impugnaciones de la ejecutada, por los fundamentos allí expuestos a los que me remito en honor a la brevedad, y que se apruebe la liquidación por ella practicada.");
+                    if (integral.ansesreajusta) {
+                        parrafos.push("Ahora bien, en cuanto al haber reajustado por el organismo, se verifica que resulta idéntico al liquidado por la actora por lo que corresponde tener por cumplido el reclamo en tal sentido.");
+                    }
                     if (impugnaciones.a) {
                         if (tipoInteres === 'corteEmbargo') {
                             parrafos.push('En torno al cálculo de intereses efectuado por la actora desde la fecha de corte del último cómputo aprobado, cabe puntualizar que la Suscripta comparte el criterio sustentado por la Sala I de la CFSS en la causa "FREUND JORGE CARLOS c/anses s/ otros - ejecución previsional" de fecha 25/11/2019 exp. 15156/12, donde sostuvo que "...la Tasa Pasiva para Uso de la Justicia (Com. A 14.290 BCRA) tiene implícita la capitalización en su fórmula de cálculo, aplicarla a un importe compuesto de capital e intereses no produce anatocismo...". En consecuencia, corresponde rechazar el planteo de la Anses en tal sentido.');
@@ -690,11 +694,12 @@
                 parrafos.push('Atento al tiempo transcurrido desde la presentación del cálculo en análisis, a fin de establecer la base regulatoria en UMAS prevista por la ley 27423, se considerará el valor de dicha unidad a la fecha de cierre de la liquidación (conf. Sala II CFSS expte N° 48840/2007 "SAGO HADEL ILANCO c/ ANSES s/REAJUSTES VARIOS" y expte. N° 31205/2012 "ALDANA JULIA c/ ANSES s/REAJUSTES VARIOS" Sent. Int. 16.08.2023).');
                 parrafos.push("En consecuencia, RESUELVO:");
                 if (integral.ansesreajusta) {
-                    parrafos.push(`1.- Aprobar en cuanto ha lugar por derecho la liquidación presentada por la actora con fecha ${formatearFecha(fechas.liquidacion)}, quedando determinadas las retroactividades en PESOS ${numeroALetras(montos.retroactivo)} ($ ${formatearMonto(montos.retroactivo)}).`);
-                    parrafos.push("2.- Intimar a la demandada para que en el plazo de diez (10) días, abone a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.");
-                    parrafos.push(`3.- Regular los honorarios de la representación letrada de la parte actora en la suma de $ ${honorariosParaTexto.umaspesos || '0'}, que representan la cantidad de ${honorariosParaTexto.umasequivalente || '0'} UMAS (Conf. arts. arts. 16, 20, 21, 22, 29 y 51 de la ley 27.423 y Res. SGA 3160/2025), suma a la que deberá adicionarse el IVA en caso de corresponder.`);    
+                    parrafos.push("1.- Tener cumplido el objeto de autos respecto del reajuste del haber.");
+                    parrafos.push(`2.- Aprobar en cuanto ha lugar por derecho la liquidación presentada por la actora con fecha ${formatearFecha(fechas.liquidacion)}, quedando determinadas las retroactividades en PESOS ${numeroALetras(montos.retroactivo)} ($ ${formatearMonto(montos.retroactivo)}).`);
+                    parrafos.push("3.- Intimar a la demandada para que en el plazo de diez (10) días, abone a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.");
+                    parrafos.push(`4.- Regular los honorarios de la representación letrada de la parte actora en la suma de $ ${honorariosParaTexto.umaspesos || '0'}, que representan la cantidad de ${honorariosParaTexto.umasequivalente || '0'} UMAS (Conf. arts. arts. 16, 20, 21, 22, 29 y 51 de la ley 27.423 y Res. SGA 3160/2025), suma a la que deberá adicionarse el IVA en caso de corresponder.`);    
                     parrafos.push("Se hace saber que dicha regulación se discrimina de la siguiente forma: 50% por la labor desarrollada en esta incidencia y 50% por las tareas que posteriormente se desarrollen hasta la transferencia de las sumas que eventualmente se embarguen. Así, la percepción de este último porcentaje sólo podrá hacerse efectivo ante el desarrollo de dichas tareas.");
-                    parrafos.push("4.- Costas a la demandada vencida.");    
+                    parrafos.push("5.- Costas a la demandada vencida.");    
                 } else {
                     const intimacionTexto = fallecimiento.herederos ? 
                         "proceda a abonar a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago" :
@@ -896,6 +901,15 @@
                                     );
                                 })}
                             </div>
+                            <div className="mt-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setHonorarios({ umaspesos: '', umasequivalente: '' })}
+                                    className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg border border-gray-400 transition-colors"
+                                >
+                                    Limpiar honorarios
+                                </button>
+                            </div>
                         </section>
                         <section className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                             <h2 className="font-bold mb-3 text-lg text-gray-800">Tipo de Interés</h2>
@@ -1009,6 +1023,5 @@
     </script>
 </body>
 </html>
-
 
 
