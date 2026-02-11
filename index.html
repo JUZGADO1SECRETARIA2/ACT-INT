@@ -111,7 +111,8 @@
                 { desde: '2025-08-01', hasta: '2025-08-31', valorUMA: 77229.00 },
                 { desde: '2025-09-01', hasta: '2025-09-30', valorUMA: 78850.00 },
                 { desde: '2025-10-01', hasta: '2025-10-31', valorUMA: 80664.00 },
-                { desde: '2025-11-01', hasta: '2026-10-31', valorUMA: 84963.00 }
+                { desde: '2025-11-01', hasta: '2025-12-31', valorUMA: 84963.00 },
+                { desde: '2026-01-01', hasta: '2026-10-31', valorUMA: 87342.00 }
             ];
             
             const [calculandoHonorarios, setCalculandoHonorarios] = React.useState(false);
@@ -697,7 +698,7 @@
                     parrafos.push("1.- Tener cumplido el objeto de autos respecto del reajuste del haber.");
                     parrafos.push(`2.- Aprobar en cuanto ha lugar por derecho la liquidación presentada por la actora con fecha ${formatearFecha(fechas.liquidacion)}, quedando determinadas las retroactividades en ${numeroALetras(montos.retroactivo)} ($ ${formatearMonto(montos.retroactivo)}).`);
                     parrafos.push("3.- Intimar a la demandada para que en el plazo de diez (10) días, abone a la parte actora las retroactividades aprobadas con más sus intereses a la fecha del efectivo pago, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.");
-                    parrafos.push(`4.- Regular los honorarios de la representación letrada de la parte actora en la suma de $ ${honorariosParaTexto.umaspesos || '0'}, que representan la cantidad de ${honorariosParaTexto.umasequivalente || '0'} UMAS (Conf. arts. arts. 16, 20, 21, 22, 29 y 51 de la ley 27.423 y Res. SGA 3160/2025), suma a la que deberá adicionarse el IVA en caso de corresponder.`);    
+                    parrafos.push(`4.- Regular los honorarios de la representación letrada de la parte actora en la suma de $ ${honorariosParaTexto.umaspesos || '0'}, que representan la cantidad de ${honorariosParaTexto.umasequivalente || '0'} UMAS (Conf. arts. arts. 16, 20, 21, 22, 29 y 51 de la ley 27.423 y Res. SGA 36/2026), suma a la que deberá adicionarse el IVA en caso de corresponder.`);    
                     parrafos.push("Se hace saber que dicha regulación se discrimina de la siguiente forma: 50% por la labor desarrollada en esta incidencia y 50% por las tareas que posteriormente se desarrollen hasta la transferencia de las sumas que eventualmente se embarguen. Así, la percepción de este último porcentaje sólo podrá hacerse efectivo ante el desarrollo de dichas tareas.");
                     parrafos.push("5.- Costas a la demandada vencida.");    
                 } else {
@@ -709,7 +710,7 @@
                         parrafos.push("Las sumas aquí aprobadas deberán ser depositadas en el correspondiente sucesorio, en caso de incumplimiento serán transferidas al mismo.");
                     }
                     parrafos.push(`2.- Intimar a la demandada para que en el plazo de diez (10) días, ${intimacionTexto}, bajo apercibimiento de proceder a la traba de embargo ejecutivo sin más trámite.`);
-                    parrafos.push(`3.- Regular los honorarios de la representación letrada de la parte actora en la suma de $ ${honorariosParaTexto.umaspesos || '0'}, que representan la cantidad de ${honorariosParaTexto.umasequivalente || '0'} UMAS (Conf. arts. arts. 16, 20, 21, 22, 29 y 51 de la ley 27.423 y Res. SGA 3160/2025), suma a la que deberá adicionarse el IVA en caso de corresponder.`);
+                    parrafos.push(`3.- Regular los honorarios de la representación letrada de la parte actora en la suma de $ ${honorariosParaTexto.umaspesos || '0'}, que representan la cantidad de ${honorariosParaTexto.umasequivalente || '0'} UMAS (Conf. arts. arts. 16, 20, 21, 22, 29 y 51 de la ley 27.423 y Res. SGA 36/2026), suma a la que deberá adicionarse el IVA en caso de corresponder.`);
                     parrafos.push("Se hace saber que dicha regulación se discrimina de la siguiente forma: 50% por la labor desarrollada en esta incidencia y 50% por las tareas que posteriormente se desarrollen hasta la transferencia de las sumas que eventualmente se embarguen. Así, la percepción de este último porcentaje sólo podrá hacerse efectivo ante el desarrollo de dichas tareas.");
                     parrafos.push("4.- Costas a la demandada vencida.");    
                     parrafos.push("Notifíquese por Secretaría a las partes de forma electrónica.");
@@ -1023,3 +1024,4 @@
     </script>
 </body>
 </html>
+
