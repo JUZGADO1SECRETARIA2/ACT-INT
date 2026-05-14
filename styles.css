@@ -1,0 +1,37 @@
+/* Estilos adicionales personalizados */
+body {
+    background-color: #f3f4f6;
+    font-family: Arial, sans-serif;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.preview-text {
+    font-family: Arial;
+    font-size: 11px;
+    line-height: 1.5;
+    text-indent: 1.27cm;
+}
+
+input[type="date"],
+input[type="text"] {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+button:not(:disabled):hover {
+    opacity: 0.9;
+}
