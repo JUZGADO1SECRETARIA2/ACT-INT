@@ -823,7 +823,7 @@
                             </button>
                         </div>
                         {modoNumerosALetras && (
-                            <p className="text-sm text-gray-600 -mt-2">Solo conversor de montos a letras y cálculo de honorarios.</p>
+                            <p className="text-sm text-gray-600 -mt-2">Solo conversor de montos a letras y cálculo de honorarios para primeras liquidaciones.</p>
                         )}
                         
                         {!modoNumerosALetras && (
@@ -988,7 +988,7 @@
                             <div className="bg-blue-50 border-l-4 border-blue-400 p-3 rounded mb-4">
                                 <p className="text-sm text-blue-900">
                                     {modoNumerosALetras ? (
-                                        <><strong>💡 Nota:</strong> Si completas "Fecha final" y "Retroactivo", al hacer clic en "Ver montos en letras" se calcularán los honorarios y se mostrarán en el resultado. Si no ingresas fecha final, no se calcularán honorarios y no aparecerán en el cuadro.</>
+                                        <><strong>💡 Nota:</strong> <strong>CALCULA HONORARIOS PARA PRIMERAS LIQUIDACIONES, si tenés que calcular honorarios para actualizadas marcá el boton de Volver al formulario completo</strong> Si completas "Fecha final" y "Retroactivo", al hacer clic en "Ver montos en letras" se calcularán los honorarios y se mostrarán en el resultado. Si no ingresas fecha final, no se calcularán honorarios y no aparecerán en el cuadro.</>
                                     ) : (
                                         <><strong>💡 Nota:</strong> Si los campos están <strong>vacíos</strong>, los honorarios se calcularán <strong>automáticamente</strong> al generar el texto usando el "Retroactivo" y la "Fecha final". Si completas los campos manualmente, se usarán esos valores. La fecha de regulación (J12, para C10) se usa automáticamente como la fecha actual del día (hoy).</>
                                     )}
